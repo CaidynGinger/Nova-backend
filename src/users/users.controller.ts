@@ -2,15 +2,23 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Valida
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { AuthService } from './auth/auth.service';
 
-@Controller('users')
+@Controller('user')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService,
+    private readonly authService: AuthService) {}
 
-  @Post()
+  @Post('/signup')
   @UsePipes(ValidationPipe)
   create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+    return this.authService.signup(createUserDto);
+  }
+
+  @Post('/signin')
+  @UsePipes(ValidationPipe)
+  signin(@Body() updateUserDto: UpdateUserDto) {
+    return this.authService.signin(updateUserDto);
   }
 
   @Get()
@@ -29,7 +37,7 @@ export class UsersController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.usersService.remove(id);
   }
 }
