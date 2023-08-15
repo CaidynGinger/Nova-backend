@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
+import { IsArray, IsEmail, IsEmpty, IsNotEmpty, IsOptional, MinLength } from 'class-validator';
 
 export class CreateUserDto {
   @IsNotEmpty()
@@ -12,4 +12,13 @@ export class CreateUserDto {
   @IsNotEmpty()
   @IsEmail()
   email: string;
+
+  @IsOptional()
+  rolls: []
+
+  @IsOptional()
+  jobs: []
+
+  @IsOptional()
+  payPerHour: number
 }
