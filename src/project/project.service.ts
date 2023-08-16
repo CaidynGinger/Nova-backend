@@ -24,54 +24,15 @@ export class ProjectService {
     return this.projectRepository.save(newProject);
   }
   async findAll() {
-    const projectList = await this.projectRepository.find();
-    // get all notes
-    const projectListWithNotes = await Promise.all(
-      projectList.map(async (project) => {
-        const projectOwner = await this.userRepository.findOne({
-          where: { id: project.clientOwner },
-        });
-
-        const notes = await Promise.all(
-          project.notes.map(async (id) => {
-            const note = await this.noteRepository.findOne({
-              where: { id: id },
-            });
-            // get user from note
-            const user = await this.userRepository.findOne({
-              where: { id: note.owner },
-            });
-
-            return {
-              ...note,
-              owner: { username: user?.username, id: user?.id },
-            };
-          }),
-        );
-
-        return {
-          ...project,
-          notes: notes,
-          clientOwner: {
-            username: projectOwner?.username,
-            id: projectOwner?.id,
-          },
-        };
-      }),
-    );
-    // console.log(projectListWithNotes);
-
-    // projectList.forEach(element => {
-    //   // for (let index = 0; index < array.length; index++) {
-    //   //   const element = array[index];
-
-    //   // }
-    // });
-    return projectListWithNotes;
+    const projectList = await this.projectRepository.find({
+      select: ['notes'],
+      relations: ['notes'],
+    });
+    return projectList;
   }
 
   async findOne(id: number) {
-    return await this.projectRepository.findOne({ where: { id: id } });
+    return await this.projectRepository.findOne({ where: { id: id }, relations: ['notes'],});
   }
 
   async update(id: number, updateProjectDto: UpdateProjectDto) {
@@ -88,22 +49,27 @@ export class ProjectService {
     if (!project) {
       throw new NotFoundException('project not found');
     }
-    return await this.projectRepository.delete(id);
+    await this.projectRepository.delete(id);
+    return project
   }
 
   async addNoteToProject(id: number, createNoteDto: CreateNoteDto) {
-    const project = await this.findOne(id);
+    const project = await this.projectRepository.findOne({ where: { id: id } });
     if (!project) {
       throw new NotFoundException('project not found');
     }
-    const newNote = this.noteRepository.create(createNoteDto);
+
+    const newNote = this.noteRepository.create({
+      ...createNoteDto,
+      project: project,
+    });
     await this.noteRepository.save(newNote);
 
-    const updatedProject = {
-      ...project,
-      notes: [...project.notes, newNote.id],
-    };
-    console.log(updatedProject);
-    return this.projectRepository.save(updatedProject);
+    return this.projectRepository.findOne({
+      where: { id: id },
+      relations: ['notes'],
+    });
+
+    // return this.projectRepository.findOne(id);
   }
 }

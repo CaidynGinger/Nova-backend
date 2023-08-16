@@ -1,4 +1,5 @@
 import { IsNotEmpty, IsOptional, IsDateString, IsArray, IsString, IsNumber } from 'class-validator';
+import { Note } from '../entities/notes.entity';
 
 export class CreateProjectDto {
   @IsNotEmpty()
@@ -35,9 +36,8 @@ export class CreateProjectDto {
   completedDate: Date;
 
   @IsOptional()
-  @IsArray()
-  @IsNumber({}, { each: true })
-  notes: number[];
+  @IsString()
+  notes: Note[];
 
   fundingLedger: any[]; // Since the column is jsonb, validation might vary, adjust as needed
 }

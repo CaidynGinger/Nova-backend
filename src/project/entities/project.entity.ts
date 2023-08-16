@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn } from 'typeorm';
+import { Note } from './notes.entity';
 
 @Entity()
 export class Project {
@@ -43,12 +44,16 @@ export class Project {
   @Column({ type: 'timestamp', nullable: true })
   completedDate: Date;
 
-  @Column({
-    type: 'integer', 
-    array: true, 
-    name: 'notes',
-    default: [] })
-  notes: number[];
+  @OneToMany(() => Note, note => note.project, { cascade: true })
+  @JoinColumn({ name: 'project_id' })
+  notes: Note[];
+
+  // @Column({
+  //   type: 'integer', 
+  //   array: true, 
+  //   name: 'notes',
+  //   default: [] })
+  // notes: number[];
 
   @Column('jsonb', { nullable: true })
   fundingLedger: any[];
