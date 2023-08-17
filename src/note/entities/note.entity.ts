@@ -1,5 +1,6 @@
+import { Project } from 'src/project/entities/project.entity';
+import { User } from 'src/users/entities/user.entity';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { Project } from './project.entity';
 
 @Entity()
 export class Note {
@@ -21,10 +22,11 @@ export class Note {
   })
   note: string;
 
-  @Column({
-    nullable: false,
+  @ManyToOne(() => User, user => user.notes, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
   })
-  owner: number;
+  owner: User;
 
   @ManyToOne(() => Project, (project) => project.notes, {
     onDelete: 'CASCADE',

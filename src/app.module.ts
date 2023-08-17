@@ -5,8 +5,9 @@ import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ProjectModule } from './project/project.module';
-import { JobModule } from './job/job.module';
 import { FundsModule } from './funds/funds.module';
+import { NoteModule } from './note/note.module';
+import { JobsModule } from './jobs/jobs.module';
 import entities from 'src';
 
 @Module({
@@ -25,7 +26,7 @@ import entities from 'src';
         // dropSchema: true,
       }),
       inject: [ConfigService],
-    }), UsersModule, ProjectModule, JobModule, FundsModule],
+    }), ProjectModule, UsersModule,  JobsModule, FundsModule, NoteModule, JobsModule],
   controllers: [AppController],
   providers: [AppService],
 })

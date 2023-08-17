@@ -1,4 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Job } from 'src/jobs/entities/job.entity';
+import { Note } from 'src/note/entities/note.entity';
+import { Project } from 'src/project/entities/project.entity';
+import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class User {
@@ -43,4 +46,16 @@ export class User {
     default: '',
   })
   password: string;
+
+  @OneToMany(() => Job, job => job.createdBy)
+  @JoinColumn({ name: 'user_id' })
+  createdJobs: Job[];
+
+  @OneToMany(() => Project, project => project.clientOwner)
+  @JoinColumn({ name: 'user_id' })
+  projects: Project[];
+
+  @OneToMany(() => Note, note => note.owner)
+  @JoinColumn({ name: 'user_id' })
+  notes: Note[];
 }

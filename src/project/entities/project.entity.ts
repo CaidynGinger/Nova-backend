@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn } from 'typeorm';
-import { Note } from './notes.entity';
+import { Note } from 'src/note/entities/note.entity';
+import { User } from 'src/users/entities/user.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn, ManyToOne } from 'typeorm';
 
 @Entity()
 export class Project {
@@ -22,11 +23,11 @@ export class Project {
   })
   description: string;
 
-  @Column({
-    type: 'integer',
-    nullable: false,
+  @ManyToOne(() => User, user => user.projects, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
   })
-  clientOwner: number;
+  clientOwner: User;
 
   @Column({
     type: 'integer', 
@@ -47,13 +48,6 @@ export class Project {
   @OneToMany(() => Note, note => note.project, { cascade: true })
   @JoinColumn({ name: 'project_id' })
   notes: Note[];
-
-  // @Column({
-  //   type: 'integer', 
-  //   array: true, 
-  //   name: 'notes',
-  //   default: [] })
-  // notes: number[];
 
   @Column('jsonb', { nullable: true })
   fundingLedger: any[];
