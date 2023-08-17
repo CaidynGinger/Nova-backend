@@ -9,7 +9,7 @@ import {
   Put,
   Headers
 } from '@nestjs/common';
-import { ProjectService } from './project.service';
+import { ProjectService } from './services/project.service';
 import { ProjectCreateRequest } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { CreateNoteDto } from '../note/dto/create-note.dto';
@@ -18,9 +18,9 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { UserResponseDto } from '../users/dto/user.dto';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { ProjectResponseDto } from './dto/project.dto';
+import { ProjectNoteService } from './services/project.note.service';
 
 @Serialize(ProjectResponseDto)
 @Controller('projects')
@@ -54,7 +54,9 @@ import { ProjectResponseDto } from './dto/project.dto';
   description: 'The server worked and an item was created',
 })
 export class ProjectController {
-  constructor(private readonly projectService: ProjectService) {}
+  constructor(private readonly projectService: ProjectService,
+    private readonly projectsNoteService: ProjectNoteService,
+    ) {}
 
   /**
    * Retrieves a list of all projects.
@@ -108,7 +110,7 @@ export class ProjectController {
     @Param('id', ParseIntPipe) id: number,
     @Body() createNoteDto: CreateNoteDto,
   ) {
-    return await this.projectService.addNoteToProject(id, createNoteDto, userId);
+    return await this.projectsNoteService.addNoteToProject(id, createNoteDto, userId);
   }
 
   @Put(':id/notes/:noteId')
@@ -117,7 +119,7 @@ export class ProjectController {
     @Param('noteId', ParseIntPipe) noteId: number,
     @Body() createNoteDto: CreateNoteDto,
   ) {
-    return this.projectService.updateNote(id, noteId, createNoteDto);
+    return this.projectsNoteService.updateNote(id, noteId, createNoteDto);
   }
 
    /**
@@ -131,7 +133,7 @@ export class ProjectController {
      @Param('id', ParseIntPipe) id: number,
      @Param('noteId', ParseIntPipe) noteId: number,
    ) {
-      return this.projectService.removeNoteFromProject(id, noteId);
+      return this.projectsNoteService.removeNoteFromProject(id, noteId);
      // Implementation details
    }
 }

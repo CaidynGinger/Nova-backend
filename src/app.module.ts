@@ -5,10 +5,10 @@ import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ProjectModule } from './project/project.module';
-import { FundsModule } from './funds/funds.module';
 import { NoteModule } from './note/note.module';
 import { JobsModule } from './jobs/jobs.module';
 import entities from 'src';
+import { FundingsModule } from './project/fundings/fundings.module';
 
 @Module({
   imports: [ConfigModule.forRoot({ isGlobal: true }),
@@ -26,7 +26,7 @@ import entities from 'src';
         // dropSchema: true,
       }),
       inject: [ConfigService],
-    }), ProjectModule, UsersModule,  JobsModule, FundsModule, NoteModule, JobsModule],
+    }), ProjectModule, UsersModule, JobsModule, NoteModule, FundingsModule],
   controllers: [AppController],
   providers: [AppService],
 })

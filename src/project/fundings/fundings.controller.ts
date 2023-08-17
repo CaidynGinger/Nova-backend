@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Headers,
+} from '@nestjs/common';
 import { FundingsService } from './fundings.service';
 import { CreateFundingDto } from './dto/create-funding.dto';
 import { UpdateFundingDto } from './dto/update-funding.dto';
@@ -8,8 +17,11 @@ export class FundingsController {
   constructor(private readonly fundingsService: FundingsService) {}
 
   @Post()
-  create(@Body() createFundingDto: CreateFundingDto) {
-    return this.fundingsService.create(createFundingDto);
+  create(
+    @Headers('user_id') userId: number,
+    @Body() createFundingDto: CreateFundingDto,
+  ) {
+    // return this.fundingsService.create(createFundingDto);
   }
 
   @Get()
@@ -27,8 +39,8 @@ export class FundingsController {
     return this.fundingsService.update(+id, updateFundingDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.fundingsService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.fundingsService.remove(+id);
+  // }
 }
