@@ -6,9 +6,10 @@ import { Note, Project } from 'src';
 import { UsersModule } from 'src/users/users.module';
 import { NoteModule } from 'src/note/note.module';
 // import { UsersService } from 'src/users/users.service';
+import { FundingsModule } from './fundings/fundings.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Project, Note]), UsersModule, NoteModule],
+  imports: [TypeOrmModule.forFeature([Project, Note]), UsersModule, NoteModule, FundingsModule],
   controllers: [ProjectController],
   providers: [ ProjectService]
 })

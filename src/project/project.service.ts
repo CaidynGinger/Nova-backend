@@ -81,10 +81,10 @@ export class ProjectService {
       throw new NotFoundException('project not found');
     }
     const user = await this.userService.findOne(userId);
-    // await this.noteService.create(createNoteDto, project, user);
+    await this.noteService.create(createNoteDto, project, user);
     return this.projectRepository.findOne({
       where: { id: id },
-      relations: ['notes'],
+      relations: ['notes', 'clientOwner'],
     });
   }
 
@@ -139,9 +139,6 @@ export class ProjectService {
 
   async changeProjectOwner(project: Project, newOwnerId: number) {
     const newOwner = await this.userService.findOne(newOwnerId);
-    if (!newOwner) {
-      throw new NotFoundException('New owner not found');
-    }
     project.clientOwner = newOwner;
   }
 }

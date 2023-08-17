@@ -1,6 +1,7 @@
 import { Note } from 'src/note/entities/note.entity';
 import { User } from 'src/users/entities/user.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn, ManyToOne } from 'typeorm';
+import { Funding } from '../fundings/entities/funding.entity';
 
 @Entity()
 export class Project {
@@ -49,6 +50,7 @@ export class Project {
   @JoinColumn({ name: 'project_id' })
   notes: Note[];
 
-  @Column('jsonb', { nullable: true })
-  fundingLedger: any[];
+  @OneToMany(() => Funding, funding => funding.project)
+  @JoinColumn({ name: 'project_id' })
+  fundingLedger: Funding[];
 }

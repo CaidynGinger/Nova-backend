@@ -17,7 +17,11 @@ export class NoteService {
   }
 
   async findAll() {
-    return await this.noteRepository.find();
+    return await this.noteRepository.find(
+      {
+        relations: ['project', 'owner'],
+      },
+    );
   }
 
   async findOne(id: number) {
