@@ -9,6 +9,5 @@ import { Note } from 'src';
   controllers: [NoteController],
   providers: [NoteService],
   exports: [NoteService], // Export the service here
-
 })
 export class NoteModule {}

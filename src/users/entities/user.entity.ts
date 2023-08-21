@@ -1,3 +1,4 @@
+import { Fund } from 'src/funds/entities/fund.entity';
 import { Job } from 'src/jobs/entities/job.entity';
 import { Note } from 'src/note/entities/note.entity';
 import { Project } from 'src/project/entities/project.entity';
@@ -37,25 +38,47 @@ export class User {
   @Column({
     name: 'email_address',
     nullable: false,
-    default: '',
   })
   email: string;
 
   @Column({
     nullable: false,
-    default: '',
   })
   password: string;
 
+  @Column({
+    nullable: false,
+    default: '',
+  })
+  firstName: string;
+
+  @Column({
+    nullable: false,
+    default: '',
+  })
+  lastName: string;
+
+  @Column({
+    nullable: false,
+    default: 1,
+  })
+  profileImage: number
+
+  @Column({
+    nullable: false,
+    default: 8,
+  })
+  billAbleHours: number
+
   @OneToMany(() => Job, job => job.createdBy)
-  @JoinColumn({ name: 'user_id' })
   createdJobs: Job[];
 
   @OneToMany(() => Project, project => project.clientOwner)
-  @JoinColumn({ name: 'user_id' })
   projects: Project[];
 
   @OneToMany(() => Note, note => note.owner)
-  @JoinColumn({ name: 'user_id' })
   notes: Note[];
+
+  @OneToMany(() => Fund, fund => fund.owner)
+  funds: Fund[];
 }

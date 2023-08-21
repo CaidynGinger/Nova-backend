@@ -40,16 +40,17 @@ export class ProjectService {
 
   async findAll() {
     const projectList = await this.projectRepository.find({
-      select: ['notes', 'clientOwner'],
-      relations: ['notes', 'clientOwner'],
+      select: ['notes', 'clientOwner', 'funds' ],
+      relations: ['notes', 'clientOwner', 'funds'],
     });
     return projectList;
   }
 
   async findOne(id: number) {
     const project = await this.projectRepository.findOne({
-      where: { id: id },
-      relations: ['clientOwner', 'notes'],
+      where: { id },
+      select: ['notes', 'clientOwner', 'funds' ],
+      relations: ['clientOwner', 'notes', 'funds'],
     });
     if (!project) {
       throw new NotFoundException('project not found');

@@ -6,8 +6,8 @@ import {
   IsString,
   IsNumber,
 } from 'class-validator';
+import { Fund } from 'src/funds/entities/fund.entity';
 import { Note } from 'src/note/entities/note.entity';
-import { Funding } from '../fundings/entities/funding.entity';
 
 export class ProjectCreateRequest {
   /**
@@ -87,5 +87,5 @@ export class ProjectCreateRequest {
    * #This field is required, but validation might vary due to JSONB data type.
    */
   @IsNotEmpty()
-  fundingLedger: Funding[]; // Since the column is jsonb, validation might vary, adjust as needed
+  fundingLedger: Fund[]; // Since the column is jsonb, validation might vary, adjust as needed
 }

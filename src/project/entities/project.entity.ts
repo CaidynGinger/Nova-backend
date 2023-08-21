@@ -1,7 +1,7 @@
+import { Fund } from 'src/funds/entities/fund.entity';
 import { Note } from 'src/note/entities/note.entity';
 import { User } from 'src/users/entities/user.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn, ManyToOne } from 'typeorm';
-import { Funding } from '../fundings/entities/funding.entity';
 
 @Entity()
 export class Project {
@@ -47,10 +47,13 @@ export class Project {
   completedDate: Date;
 
   @OneToMany(() => Note, note => note.project, { cascade: true })
-  @JoinColumn({ name: 'project_id' })
   notes: Note[];
 
-  @OneToMany(() => Funding, funding => funding.project)
-  @JoinColumn({ name: 'project_id' })
-  fundingLedger: Funding[];
+  @OneToMany(() => Fund, fund => fund.project, { cascade: true })
+  funds: Fund[];
+
+  @Column({ type: 'integer', nullable: true })
+  profile: number
+
+  
 }

@@ -21,8 +21,10 @@ import {
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { ProjectResponseDto } from './dto/project.dto';
 import { ProjectNoteService } from './services/project.note.service';
+import { CreateFundDto } from 'src/funds/dto/create-fund.dto';
+import { ProjectFundingService } from './services/project.funding.service';
 
-@Serialize(ProjectResponseDto)
+// @Serialize(ProjectResponseDto)
 @Controller('projects')
 @ApiTags('Projects')
 @ApiResponse({
@@ -56,6 +58,7 @@ import { ProjectNoteService } from './services/project.note.service';
 export class ProjectController {
   constructor(private readonly projectService: ProjectService,
     private readonly projectsNoteService: ProjectNoteService,
+    private readonly projectFundingService: ProjectFundingService,
     ) {}
 
   /**
@@ -94,6 +97,8 @@ export class ProjectController {
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.projectService.remove(id);
   }
+
+  // notes
 
   @Get(':id/notes')
   getNotes(@Param('id', ParseIntPipe) id: number) {
@@ -134,6 +139,33 @@ export class ProjectController {
      @Param('noteId', ParseIntPipe) noteId: number,
    ) {
       return this.projectsNoteService.removeNoteFromProject(id, noteId);
+     // Implementation details
+   }
+
+
+
+  //  funds
+
+  @Get(':id/funds')
+  getFunds(@Param('id', ParseIntPipe) id: number) {
+    return null;
+  }
+
+  @Post(':id/funds')
+  async createFund(
+    @Headers('user_id') userId: number,
+    @Param('id', ParseIntPipe) id: number,
+    @Body() createFundDto: CreateFundDto,
+    ) {
+    return await this.projectFundingService.addFundsToProject(id, createFundDto, userId);
+  }
+
+  @Delete(':id/funds/:fundsId')
+  async deleteFunds(
+     @Param('id', ParseIntPipe) id: number,
+     @Param('fundsId', ParseIntPipe) fundsId: number,
+   ) {
+      return this.projectFundingService.removeFundsFromProject(id, fundsId);
      // Implementation details
    }
 }

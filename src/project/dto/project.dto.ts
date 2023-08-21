@@ -1,5 +1,6 @@
 import { Expose, Type } from 'class-transformer';
 import { type } from 'os';
+import { Fund } from 'src/funds/entities/fund.entity';
 import { Note } from 'src/note/entities/note.entity';
 import { UserResponseDto } from 'src/users/dto/user.dto';
 import { User } from 'src/users/entities/user.entity';
@@ -34,5 +35,5 @@ export class ProjectResponseDto {
     notes: Note[];
   
     @Expose()
-    fundingLedger: any[];
+    funds: Fund[];
   }
