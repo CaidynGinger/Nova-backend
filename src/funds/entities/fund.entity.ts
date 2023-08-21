@@ -26,6 +26,9 @@ export class Fund {
   })
   note: string;
 
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  createdDate: Date;
+
   @ManyToOne(() => Project, (project) => project.funds, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
