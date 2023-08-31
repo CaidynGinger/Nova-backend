@@ -8,7 +8,7 @@ export class StaffUserResponseDto {
   profileImage: string;
 
   @Expose()
-  email: number[];
+  email: string;
 
   @Expose()
   username: string;

@@ -8,7 +8,7 @@ export class ClientsUserResponseDto {
   profileImage: string;
 
   @Expose()
-  email: number[];
+  email: string;
 
   @Expose()
   username: string;
