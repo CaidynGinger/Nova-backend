@@ -9,6 +9,7 @@ import { NoteModule } from './note/note.module';
 import { JobsModule } from './jobs/jobs.module';
 import entities from 'src';
 import { FundsModule } from './funds/funds.module';
+import { StaffModule } from './staff/staff.module';
 
 @Module({
   imports: [ConfigModule.forRoot({ isGlobal: true }),
@@ -26,7 +27,7 @@ import { FundsModule } from './funds/funds.module';
         // dropSchema: true,
       }),
       inject: [ConfigService],
-    }), ProjectModule, UsersModule, JobsModule, NoteModule, FundsModule],
+    }), ProjectModule, UsersModule, JobsModule, NoteModule, FundsModule, StaffModule],
   controllers: [AppController],
   providers: [AppService],
 })

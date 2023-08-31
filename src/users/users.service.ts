@@ -1,4 +1,5 @@
 import {
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -11,12 +12,55 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @InjectRepository(User) private readonly userRepository: Repository<User>
   ) {}
 
   create(createUserDto: CreateUserDto) {
     const newUser = this.userRepository.create(createUserDto);
     return this.userRepository.save(newUser);
+  }
+
+  staffCreate(createUserDto: CreateUserDto) {
+    createUserDto = {
+      ...createUserDto,
+      roles: [4000]
+    }
+    return createUserDto
+  }
+
+  async findStaff() {
+    return await this.userRepository
+      .createQueryBuilder('user')
+      .where(':roleId = ANY(user.roles)', { roleId: 4000 }) // Use the ANY operator for array
+      .getMany();
+  }
+
+  async findClientUsers() {
+    return await this.userRepository
+      .createQueryBuilder('user')
+      .where(':roleId = ANY(user.roles)', { roleId: 3000 }) // Use the ANY operator for array
+      .getMany();
+  }
+
+  // async findUsersByType(userType: string) {
+  //   let userTypeNumber = 3000
+
+  //   if (userType === "staff") {
+  //     userTypeNumber = 4000
+  //   }
+  //   return await this.userRepository
+  //     .createQueryBuilder('user')
+  //     .where(':roleId = ANY(user.roles)', { roleId: userTypeNumber }) // Use the ANY operator for array
+  //     .getMany();
+  // }
+
+  clientsCreate(createUserDto: CreateUserDto) {
+    createUserDto = {
+      ...createUserDto,
+      roles: [3000],
+      password: 'password'
+    }
+    return createUserDto
   }
 
   async findAll() {

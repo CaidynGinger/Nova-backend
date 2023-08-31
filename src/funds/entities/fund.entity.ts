@@ -39,5 +39,5 @@ export class Fund {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
-  owner: User;
+  owner: User;  
 }

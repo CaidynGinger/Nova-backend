@@ -23,10 +23,10 @@ export class Job {
   completedDate: Date;
 
   @ManyToOne(() => User, user => user.createdJobs)
-  createdBy: User;
+  createdBy: User; // admin
 
   @ManyToOne(() => User, user => user.jobs)
-  createdFor: User;
+  createdFor: User; // staff 
 
   @CreateDateColumn()
   createdAt: Date;

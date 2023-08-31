@@ -6,8 +6,10 @@ import { AuthService } from './auth/auth.service';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserResponseDto } from 'src/users/dto/user.dto';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { StaffUserResponseDto } from './dto/staff.dto';
+import { ClientsUserResponseDto } from './dto/clients.dto';
 
-@Serialize(UserResponseDto)
+// @Serialize(UserResponseDto)
 @Controller('users')
 @ApiTags('Users')
 @ApiResponse({
@@ -42,17 +44,54 @@ export class UsersController {
   constructor(private readonly usersService: UsersService,
     private readonly authService: AuthService) {}
 
-  @Post('/signup')
-  @UsePipes(ValidationPipe)
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.authService.signup(createUserDto);
-  }
+  // @Post('/signup')
+  // @UsePipes(ValidationPipe)
+  // create(@Body() createUserDto: CreateUserDto) {
+  //   return this.authService.signup(createUserDto);
+  // }
 
   @Post('/signin')
   @UsePipes(ValidationPipe)
   signin(@Body() updateUserDto: UpdateUserDto) {
     return this.authService.signin(updateUserDto);
   }
+
+  
+
+  // staff 
+  // create staff
+  @Post('/staff')
+  @UsePipes(ValidationPipe)
+  staffCreate(@Body() createUserDto: CreateUserDto) {
+    const staffUser = this.usersService.staffCreate(createUserDto);
+    return this.authService.signup(staffUser);
+    // return this.authService.signup(staffUser);
+  }
+  // get staff
+  @Get('/staff')
+  @Serialize(StaffUserResponseDto)
+  @UsePipes(ValidationPipe)
+  findStaffUsers() {
+    return this.usersService.findStaff();
+  }
+  // clients
+  @Post('/clients')
+  @UsePipes(ValidationPipe)
+  clientsCreate(@Body() createUserDto: CreateUserDto) {
+    const staffUser = this.usersService.clientsCreate(createUserDto);
+    return this.authService.signup(staffUser);
+    // return this.authService.signup(staffUser);
+  }
+  @Get('/clients')
+  @Serialize(ClientsUserResponseDto)
+  @UsePipes(ValidationPipe)
+  findClientUsers() {
+    return this.usersService.findClientUsers();
+  }
+
+
+
+
 
   @Get()
   findAll() {

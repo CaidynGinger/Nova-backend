@@ -28,7 +28,7 @@ export class Project {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
-  clientOwner: User;
+  clientOwner: User; // client
 
   @Column({
     type: 'integer', 

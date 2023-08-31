@@ -1,11 +1,11 @@
-import { IsEmail, IsNotEmpty, IsOptional, MinLength } from 'class-validator';
+import { IsArray, IsEmail, IsNotEmpty, IsNumber, IsOptional, MinLength } from 'class-validator';
 
 export class CreateUserDto {
-  @IsNotEmpty()
+  @IsOptional()
   @MinLength(3)
   username: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @MinLength(8)
   password: string;
 
@@ -14,7 +14,9 @@ export class CreateUserDto {
   email: string;
 
   @IsOptional()
-  rolls: []
+  @IsArray()
+  @IsNumber() // This ensures each item in the array is a number
+  roles: number[];
 
   @IsOptional()
   jobs: []

@@ -1,8 +1,10 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { UsersService } from '../users.service';
 import { CreateUserDto } from '../dto/create-user.dto';
+
 import { randomBytes, scrypt as _scrypt } from 'crypto';
 import { promisify } from 'util';
+
 import { UpdateUserDto } from '../dto/update-user.dto';
 
 const scrypt = promisify(_scrypt);

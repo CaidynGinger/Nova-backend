@@ -12,28 +12,28 @@ export class ProjectResponseDto {
     @Expose()
     title: string;
   
-    @Expose()
-    description: string;
+    // @Expose()
+    // description: string;
   
-    @Expose()
-    @Type(() => UserResponseDto) // Transform clientOwner to UserResponseDto
-    clientOwner: UserResponseDto; // Change type to UserResponseDto
+    // @Expose()
+    // @Type(() => UserResponseDto) // Transform clientOwner to UserResponseDto
+    // clientOwner: UserResponseDto; // Change type to UserResponseDto
   
-    @Expose()
-    jobs: number[];
+    // @Expose()
+    // jobs: number[];
   
-    @Expose()
-    createdDate: Date;
+    // @Expose()
+    // createdDate: Date;
   
-    @Expose()
-    deadlineDate: Date;
+    // @Expose()
+    // deadlineDate: Date;
   
-    @Expose()
-    completedDate: Date;
+    // @Expose()
+    // completedDate: Date;
   
-    @Expose()
-    notes: Note[];
+    // @Expose()
+    // notes: Note[];
   
-    @Expose()
-    funds: Fund[];
+    // @Expose()
+    // funds: Fund[];
   }

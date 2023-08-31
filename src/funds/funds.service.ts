@@ -20,7 +20,7 @@ export class FundsService {
   async findAll() {
     return await this.fundRepository.find(
       {
-        relations: ['project', 'owner'],
+        relations: ['project', 'owner', 'project.clientOwner'],
       },
     );
   }
