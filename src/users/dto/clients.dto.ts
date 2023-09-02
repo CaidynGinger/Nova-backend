@@ -14,7 +14,7 @@ export class ClientsUserResponseDto {
   username: string;
 
   @Expose()
-  clientType: string;
+  clientsType: string;
 
   @Expose()
   availableHours: number;
