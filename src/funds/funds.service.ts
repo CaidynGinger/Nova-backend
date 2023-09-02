@@ -7,26 +7,35 @@ import { Project, User, Fund } from 'src';
 
 @Injectable()
 export class FundsService {
-
-
   constructor(
     @InjectRepository(Fund) private readonly fundRepository: Repository<Fund>,
   ) {}
 
   async create(createFundDto: CreateFundDto, project: Project, user: User) {
-    return await this.fundRepository.save({...createFundDto, project, owner:user});
+    return await this.fundRepository.save({
+      ...createFundDto,
+      project,
+      owner: user,
+    });
   }
 
   async findAll() {
-    return await this.fundRepository.find(
-      {
-        relations: ['project', 'owner', 'project.clientOwner'],
-      },
-    );
+    let fundsList = await this.fundRepository.find({
+      relations: ['project', 'owner', 'project.clientOwner'],
+    });
+
+    return fundsList.map((fund) => {
+      return {
+        ...fund,
+        projectId: fund.project.id,
+        projectName: fund.project.title,
+        clientOwnerName: fund.owner.username,
+      };
+    });
   }
 
   async findOne(id: number) {
-    return await this.fundRepository.findOne({where : {id: id}});
+    return await this.fundRepository.findOne({ where: { id: id } });
   }
 
   async update(id: number, updateFundDto: UpdateFundDto) {
@@ -44,6 +53,6 @@ export class FundsService {
       throw new NotFoundException('Fund not found');
     }
     await this.fundRepository.delete(id);
-    return fund; 
+    return fund;
   }
 }
