@@ -4,8 +4,8 @@ export class ClientsUserResponseDto {
   @Expose()
   id: number;
 
-  @Expose()
-  profileImage: string;
+  // @Expose()
+  // profileImage: string;
 
   @Expose()
   email: string;
@@ -19,8 +19,8 @@ export class ClientsUserResponseDto {
   @Expose()
   availableHours: number;
 
-  @Expose()
-  payPerHour: number;
+  // @Expose()
+  // payPerHour: number;
 
   @Expose()
   active: boolean;

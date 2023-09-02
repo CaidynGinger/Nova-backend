@@ -5,7 +5,7 @@ export class StaffUserResponseDto {
   id: number;
 
   @Expose()
-  profileImage: string;
+  profileImage: number;
 
   @Expose()
   email: string;
