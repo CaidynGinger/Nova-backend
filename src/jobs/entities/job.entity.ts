@@ -13,26 +13,22 @@ export class Job {
   @Column()
   description: string;
 
-  @Column({ type: 'date', nullable: true })
-  createdDate: Date;
+  @ManyToOne(() => User, user => user.jobs, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  assignedUser: User;
 
-  @Column({ type: 'date', nullable: true })
-  deadlineDate: Date;
+  @Column({
+    default: false,
+  })
+  status: boolean;
 
-  @Column({ type: 'date', nullable: true })
-  completedDate: Date;
+  @Column()
+  title: string;
 
-  @ManyToOne(() => User, user => user.createdJobs)
-  createdBy: User; // admin
-
-  @ManyToOne(() => User, user => user.jobs)
-  createdFor: User; // staff 
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
+  @Column()
+  workHours: number;
 }
 
 

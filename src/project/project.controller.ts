@@ -23,8 +23,10 @@ import { ProjectResponseDto } from './dto/project.dto';
 import { ProjectNoteService } from './services/project.note.service';
 import { CreateFundDto } from 'src/funds/dto/create-fund.dto';
 import { ProjectFundingService } from './services/project.funding.service';
+import { ProjectJobServiceService } from './services/project.job.service.service';
+import { CreateJobDto } from 'src/jobs/dto/create-job.dto';
 
-@Serialize(ProjectResponseDto)
+// @Serialize(ProjectResponseDto)
 @Controller('projects')
 @ApiTags('Projects')
 @ApiResponse({
@@ -59,6 +61,7 @@ export class ProjectController {
   constructor(private readonly projectService: ProjectService,
     private readonly projectsNoteService: ProjectNoteService,
     private readonly projectFundingService: ProjectFundingService,
+    private readonly projectJobsService: ProjectJobServiceService,
     ) {}
 
   /**
@@ -168,4 +171,29 @@ export class ProjectController {
       return this.projectFundingService.removeFundsFromProject(id, fundsId);
      // Implementation details
    }
+
+
+   //  funds
+
+  @Get(':id/jobs')
+  async getJobs(@Param('id', ParseIntPipe) id: number) {
+    return await this.projectJobsService.findProjectJobs(id);
+  }
+
+  @Post(':id/jobs')
+  async createJob(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() createJobDto: CreateJobDto,
+    ) {
+    return await this.projectJobsService.addFundsToProject(id, createJobDto);
+  }
+
+  // @Delete(':id/jobs/:jobId')
+  // async deleteJob(
+  //    @Param('id', ParseIntPipe) id: number,
+  //    @Param('fundsId', ParseIntPipe) fundsId: number,
+  //  ) {
+  //     return this.projectFundingService.removeFundsFromProject(id, fundsId);
+  //    // Implementation details
+  //  }
 }

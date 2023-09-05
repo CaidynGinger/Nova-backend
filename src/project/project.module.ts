@@ -9,13 +9,16 @@ import { ProjectFundingService } from './services/project.funding.service';
 import { ProjectSupportService } from './services/project.support.service';
 import { ProjectNoteService } from './services/project.note.service';
 import { FundsModule } from 'src/funds/funds.module';
+import { ProjectJobServiceService } from './services/project.job.service.service';
+import { JobsModule } from 'src/jobs/jobs.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Project, Note, Fund]),
     UsersModule,
     NoteModule,
-    FundsModule
+    FundsModule,
+    JobsModule,
   ],
   controllers: [ProjectController],
   providers: [
@@ -23,6 +26,7 @@ import { FundsModule } from 'src/funds/funds.module';
     ProjectFundingService,
     ProjectSupportService,
     ProjectNoteService,
+    ProjectJobServiceService,
   ],
   exports: [
     ProjectService,

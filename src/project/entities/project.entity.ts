@@ -1,4 +1,5 @@
 import { Fund } from 'src/funds/entities/fund.entity';
+import { Job } from 'src/jobs/entities/job.entity';
 import { Note } from 'src/note/entities/note.entity';
 import { User } from 'src/users/entities/user.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn, ManyToOne } from 'typeorm';
@@ -20,6 +21,13 @@ export class Project {
 
   @Column({
     nullable: false,
+    default: 0,
+    name: 'project_base_cost',
+  })
+  baseCost: number;
+
+  @Column({
+    nullable: false,
     default: '',
   })
   description: string;
@@ -29,13 +37,6 @@ export class Project {
     onUpdate: 'CASCADE',
   })
   clientOwner: User; // client
-
-  @Column({
-    type: 'integer', 
-    array: true, 
-    name: 'project_jobs',
-    default: [] })
-  jobs: number[];
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdDate: Date;
@@ -49,9 +50,15 @@ export class Project {
   @OneToMany(() => Note, note => note.project, { cascade: true })
   notes: Note[];
 
+  @OneToMany(() => Job, job => job.project, { cascade: true })
+  jobs: Job[];
+
   @OneToMany(() => Fund, fund => fund.project, { cascade: true })
   funds: Fund[];
 
   @Column({ type: 'integer', nullable: true })
   profile: number
+
+  @Column({type: 'boolean', default: false, name: 'project_status'})
+  status: boolean;
 }

@@ -7,6 +7,7 @@ import {
   IsNumber,
 } from 'class-validator';
 import { Fund } from 'src/funds/entities/fund.entity';
+import { Job } from 'src/jobs/entities/job.entity';
 import { Note } from 'src/note/entities/note.entity';
 
 export class ProjectCreateRequest {
@@ -44,8 +45,7 @@ export class ProjectCreateRequest {
    */
   @IsOptional()
   @IsArray()
-  @IsNumber({}, { each: true })
-  jobs: number[];
+  jobs: Job[];
 
   /**
    * The timestamp indicating when the project was initially created.
@@ -70,6 +70,10 @@ export class ProjectCreateRequest {
   @IsDateString()
   completedDate: Date;
 
+  @IsOptional()
+  @IsNumber()
+  baseCost: number;
+
   /**
    * An array of supplementary notes related to the project.
    * Notes provide additional context and information about the project.
@@ -78,9 +82,6 @@ export class ProjectCreateRequest {
   @IsOptional()
   @IsArray()
   notes: Note[];
-
-  
-
   /**
    * #An array containing ledger entries documenting financial transactions associated with the project's funding.
    * #The structure of the entries may vary depending on the project's financial tracking system.

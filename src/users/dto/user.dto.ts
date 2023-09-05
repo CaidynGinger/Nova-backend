@@ -28,5 +28,9 @@ export class UserResponseDto {
   @Expose()
   notes: number[];
 
+  @Expose()
+  profileImage: number;
+  
+
   // Other fields you want to expose
 }

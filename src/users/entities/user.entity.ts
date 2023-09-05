@@ -38,14 +38,6 @@ export class User {
   }) // Define the new array column
   roles: number[];
 
-  @Column({
-    type: 'bigint',
-    array: true,
-    name: 'user_jobs',
-    default: [],
-  }) // Define the new array column
-  jobs: number[];
-
   @Column({ type: 'integer', default: 0 }) // Default value is set to 0, adjust as needed
   payPerHour: number;
 
@@ -90,9 +82,6 @@ export class User {
   })
   totalHours: number;
 
-  @OneToMany(() => Job, (job) => job.createdBy)
-  createdJobs: Job[];
-
   @OneToMany(() => Project, (project) => project.clientOwner)
   projects: Project[];
 
@@ -101,6 +90,9 @@ export class User {
 
   @OneToMany(() => Fund, (fund) => fund.owner)
   funds: Fund[];
+
+  @OneToMany(() => Job, (job) => job.assignedUser)
+  jobs: Job[];
 
   @Column({
     nullable: true,

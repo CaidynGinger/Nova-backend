@@ -37,11 +37,6 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 export class JobsController {
   constructor(private readonly jobsService: JobsService) {}
 
-  @Post()
-  create(@Body() createJobDto: CreateJobDto) {
-    return this.jobsService.create(createJobDto);
-  }
-
   @Get()
   findAll() {
     return this.jobsService.findAll();

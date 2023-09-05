@@ -1,15 +1,29 @@
 import { Injectable } from '@nestjs/common';
 import { CreateJobDto } from './dto/create-job.dto';
 import { UpdateJobDto } from './dto/update-job.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Job, Project, User } from 'src';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class JobsService {
-  create(createJobDto: CreateJobDto) {
-    return 'This action adds a new job';
+
+  constructor(
+    @InjectRepository(Job) private readonly JobRepository: Repository<Job>,
+  ) {}
+
+  async create(createJobDto: CreateJobDto, project: Project, assignedUser: User) {
+    return await this.JobRepository.save({
+      ...createJobDto,
+      project,
+      assignedUser: assignedUser,
+    });
   }
 
   findAll() {
-    return `This action returns all jobs`;
+    return this.JobRepository.find({
+      relations: ['project', 'assignedUser', ],
+    });
   }
 
   findOne(id: number) {
