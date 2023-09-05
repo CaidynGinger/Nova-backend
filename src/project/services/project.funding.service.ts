@@ -37,6 +37,7 @@ export class ProjectFundingService {
         return this.projectService.findOne(id);
       }
 
+
     // async addNoteToProject(id: number, createNoteDto: CreateNoteDto, userId: number) {
     //     const project = await this.projectRepository.findOne({ where: { id: id } });
     //     if (!project) {

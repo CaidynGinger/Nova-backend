@@ -24,7 +24,7 @@ import { ProjectNoteService } from './services/project.note.service';
 import { CreateFundDto } from 'src/funds/dto/create-fund.dto';
 import { ProjectFundingService } from './services/project.funding.service';
 
-// @Serialize(ProjectResponseDto)
+@Serialize(ProjectResponseDto)
 @Controller('projects')
 @ApiTags('Projects')
 @ApiResponse({

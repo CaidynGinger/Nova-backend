@@ -63,6 +63,16 @@ export class UsersService {
     return createUserDto
   }
 
+
+  // who am i request 
+  async whoAmI(id: number) {
+    const user = await this.userRepository.findOne({ where: { id: id } });
+    if (!user) {
+      throw new NotFoundException('user not found');
+    }
+    return user
+  }
+
   async findAll() {
     return await this.userRepository.find();
   }

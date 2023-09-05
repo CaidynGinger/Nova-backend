@@ -54,6 +54,4 @@ export class Project {
 
   @Column({ type: 'integer', nullable: true })
   profile: number
-
-  
 }

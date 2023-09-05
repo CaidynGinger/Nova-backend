@@ -89,7 +89,8 @@ export class UsersController {
     return this.usersService.findClientUsers();
   }
 
-
+  @Post()
+  
 
 
 

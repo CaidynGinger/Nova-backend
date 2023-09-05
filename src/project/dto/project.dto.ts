@@ -15,9 +15,9 @@ export class ProjectResponseDto {
     // @Expose()
     // description: string;
   
-    // @Expose()
-    // @Type(() => UserResponseDto) // Transform clientOwner to UserResponseDto
-    // clientOwner: UserResponseDto; // Change type to UserResponseDto
+    @Expose()
+    @Type(() => UserResponseDto) // Transform clientOwner to UserResponseDto
+    clientOwner: UserResponseDto; // Change type to UserResponseDto
   
     // @Expose()
     // jobs: number[];
@@ -25,8 +25,8 @@ export class ProjectResponseDto {
     // @Expose()
     // createdDate: Date;
   
-    // @Expose()
-    // deadlineDate: Date;
+    @Expose()
+    deadlineDate: Date;
   
     // @Expose()
     // completedDate: Date;
