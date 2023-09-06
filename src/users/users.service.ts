@@ -8,12 +8,14 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from 'src';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { JobsService } from 'src/jobs/jobs.service';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User) private readonly userRepository: Repository<User>
-  ) {}
+    @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @Inject(JobsService) private readonly jobsService: JobsService,
+    ) {}
 
   create(createUserDto: CreateUserDto) {
     const newUser = this.userRepository.create(createUserDto);
@@ -103,5 +105,10 @@ export class UsersService {
       throw new NotFoundException('user not found');
     }
     return await this.userRepository.delete(id);
+  }
+
+  async getJobsByUserId(id: number) {
+    let jobsList = await this.jobsService.findAll();
+    return jobsList.filter(jobs => jobs.assignedUser.id.toString() === id.toString())
   }
 }

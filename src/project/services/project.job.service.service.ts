@@ -55,4 +55,11 @@ export class ProjectJobServiceService {
 
         
     }
+
+    async findUserJobs(id: number) {
+        const jobs = await this.jobsService.findAll(); 
+        const projectJobs = jobs.filter(jobs => jobs.project.id.toString() === id.toString())
+
+        return projectJobs
+    }
 }

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, ValidationPipe, UsePipes } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, ValidationPipe, UsePipes, Inject } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -8,6 +8,7 @@ import { UserResponseDto } from 'src/users/dto/user.dto';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { StaffUserResponseDto } from './dto/staff.dto';
 import { ClientsUserResponseDto } from './dto/clients.dto';
+import { JobsService } from 'src/jobs/jobs.service';
 
 // @Serialize(UserResponseDto)
 @Controller('users')
@@ -42,7 +43,8 @@ import { ClientsUserResponseDto } from './dto/clients.dto';
 })
 export class UsersController {
   constructor(private readonly usersService: UsersService,
-    private readonly authService: AuthService) {}
+    private readonly authService: AuthService,
+    ) {}
 
   // @Post('/signup')
   // @UsePipes(ValidationPipe)
@@ -107,5 +109,10 @@ export class UsersController {
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.remove(id);
+  }
+
+  @Get(':id/jobs')
+  async getJobs(@Param('id', ParseIntPipe) id: number) {
+    return this.usersService.getJobsByUserId(id);
   }
 }
