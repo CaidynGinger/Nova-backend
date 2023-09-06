@@ -52,6 +52,11 @@ export class JobsController {
     return this.jobsService.update(+id, updateJobDto);
   }
 
+  @Get('change-status/:id')
+  changeJobStatus(@Param('id') id: string) {
+    return this.jobsService.changeJobStatus(+id);
+  }
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.jobsService.remove(+id);

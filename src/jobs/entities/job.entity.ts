@@ -5,7 +5,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 @Entity('jobs')
 export class Job {
   @PrimaryGeneratedColumn()
-  id: number;
+  taskId: number;
 
   @ManyToOne(() => Project, project => project.jobs)
   project: Project;

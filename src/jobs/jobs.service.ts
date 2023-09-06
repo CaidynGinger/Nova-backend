@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateJobDto } from './dto/create-job.dto';
 import { UpdateJobDto } from './dto/update-job.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -9,11 +9,11 @@ import { Repository } from 'typeorm';
 export class JobsService {
 
   constructor(
-    @InjectRepository(Job) private readonly JobRepository: Repository<Job>,
+    @InjectRepository(Job) private readonly jobRepository: Repository<Job>,
   ) {}
 
   async create(createJobDto: CreateJobDto, project: Project, assignedUser: User) {
-    return await this.JobRepository.save({
+    return await this.jobRepository.save({
       ...createJobDto,
       project,
       assignedUser: assignedUser,
@@ -21,17 +21,31 @@ export class JobsService {
   }
 
   findAll() {
-    return this.JobRepository.find({
-      relations: ['project', 'assignedUser', ],
+    return this.jobRepository.find({
+      relations: ['project', 'assignedUser'],
     });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} job`;
+  async findOne(id: number) {
+    return await this.jobRepository.findOne({ where: { taskId: id } });
   }
 
-  update(id: number, updateJobDto: UpdateJobDto) {
-    return `This action updates a #${id} job`;
+  async update(id: number, updateJobDto: UpdateJobDto) {
+    const job = await this.findOne(id);
+    if (!job) {
+      throw new NotFoundException('Fund not found');
+    }
+    Object.assign(job, updateJobDto);
+    return this.jobRepository.save(job);
+  }
+
+  async changeJobStatus(id: number) {
+    const job = await this.findOne(id);
+    if (!job) {
+      throw new NotFoundException('Fund not found');
+    }
+    job.status = !job.status;
+    return this.jobRepository.save(job);
   }
 
   remove(id: number) {

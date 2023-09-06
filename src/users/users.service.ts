@@ -63,7 +63,6 @@ export class UsersService {
     return createUserDto
   }
 
-
   // who am i request 
   async whoAmI(id: number) {
     const user = await this.userRepository.findOne({ where: { id: id } });

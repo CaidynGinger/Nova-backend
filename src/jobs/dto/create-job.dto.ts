@@ -8,7 +8,7 @@ import {
 export class CreateJobDto {
   @IsNotEmpty()
   @IsNumber()
-  id: number;
+  taskId: number;
 
   @IsNumber()
   @IsNotEmpty()

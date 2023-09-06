@@ -23,7 +23,7 @@ import { FundsModule } from './funds/funds.module';
         database: configService.get('DB_NAME'),
         entities: entities,
         synchronize: true,
-        // dropSchema: true,
+        dropSchema: true,
       }),
       inject: [ConfigService],
     }), ProjectModule, UsersModule, JobsModule, NoteModule, FundsModule],

@@ -1,10 +1,10 @@
-import { Expose, Type } from "class-transformer";
+import { Expose, Transform, Type } from "class-transformer";
 import { UserResponseDto } from "src/users/dto/user.dto";
 import { User } from "src/users/entities/user.entity";
 
 export class JobResponseDto {
     @Expose()
-    id: number;
+    taskId: number;
 
     @Expose()
     description: string;

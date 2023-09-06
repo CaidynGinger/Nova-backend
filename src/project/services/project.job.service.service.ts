@@ -6,14 +6,20 @@ import { Project } from '../entities/project.entity';
 import { JobsService } from 'src/jobs/jobs.service';
 import { UsersService } from 'src/users/users.service';
 import { filter } from 'rxjs';
+import { FundsService } from 'src/funds/funds.service';
+import { CreateFundDto } from 'src/funds/dto/create-fund.dto';
+import { Fund } from 'src/funds/entities/fund.entity';
 
 @Injectable()
 export class ProjectJobServiceService {
     constructor(
         @InjectRepository(Project)
         private readonly projectRepository: Repository<Project>,
+        @InjectRepository(Fund)
+        private readonly fundRepository: Repository<Fund>,
         @Inject(JobsService) private readonly jobsService: JobsService,
         @Inject(UsersService) private readonly usersService: UsersService,
+        @Inject(FundsService) private readonly fundsService: FundsService,
     ) {}
 
     async addFundsToProject(id: number, createJobDto: CreateJobDto) {
@@ -22,8 +28,16 @@ export class ProjectJobServiceService {
           throw new NotFoundException('project not found');
         }
         const assignedUser = await this.usersService.findOne(createJobDto.assignedUserId);
+        const expenses = createJobDto.workHours * assignedUser.payPerHour
+
+        await this.fundRepository.save({
+            expenses: expenses,
+            note: '',
+            project,
+            owner: assignedUser,
+          });
+
         return await this.jobsService.create(createJobDto, project, assignedUser);
-        // return this.projectService.findOne(id);
 
       }
 
