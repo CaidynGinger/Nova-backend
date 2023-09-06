@@ -35,6 +35,10 @@ export class ProjectService {
     const project = await this.projectRepository.save({...projectCreateRequest, clientOwner: user});
     // project.clientOwner = UserResponseDto
     return project;
+
+
+    // add income from project
+    // dop now 
   
   }
 

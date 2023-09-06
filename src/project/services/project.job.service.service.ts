@@ -22,7 +22,7 @@ export class ProjectJobServiceService {
         @Inject(FundsService) private readonly fundsService: FundsService,
     ) {}
 
-    async addFundsToProject(id: number, createJobDto: CreateJobDto) {
+    async addJobsToProject(id: number, createJobDto: CreateJobDto) {
         const project = await this.projectRepository.findOne({ where: { id: id } });
         if (!project) {
           throw new NotFoundException('project not found');
@@ -35,7 +35,7 @@ export class ProjectJobServiceService {
             note: '',
             project,
             owner: assignedUser,
-          });
+        });
 
         return await this.jobsService.create(createJobDto, project, assignedUser);
 

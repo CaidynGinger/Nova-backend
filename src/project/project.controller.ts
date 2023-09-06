@@ -173,7 +173,7 @@ export class ProjectController {
    }
 
 
-   //  funds
+   //  jobs
 
   @Get(':id/jobs')
   async getJobs(@Param('id', ParseIntPipe) id: number) {
@@ -185,7 +185,7 @@ export class ProjectController {
     @Param('id', ParseIntPipe) id: number,
     @Body() createJobDto: CreateJobDto,
     ) {
-    return await this.projectJobsService.addFundsToProject(id, createJobDto);
+    return await this.projectJobsService.addJobsToProject(id, createJobDto);
   }
 
   // @Delete(':id/jobs/:jobId')
